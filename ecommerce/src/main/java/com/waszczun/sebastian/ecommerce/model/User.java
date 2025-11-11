@@ -33,6 +33,8 @@ public class User {
     @NotBlank(message = "Email is required")
     private String email;
 
+    private String phoneNumber;
+
 
 
 }
