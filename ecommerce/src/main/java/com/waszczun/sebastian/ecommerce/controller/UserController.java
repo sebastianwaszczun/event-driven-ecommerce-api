@@ -3,43 +3,46 @@ package com.waszczun.sebastian.ecommerce.controller;
 import com.waszczun.sebastian.ecommerce.model.User;
 import com.waszczun.sebastian.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user")
-    public User addUser(User user){
-        return userService.addUser(user);
+    @PostMapping
+    public ResponseEntity<User> addUser(@RequestBody User user){
+        User created = userService.addUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @GetMapping("/users")
-    public List<User> getUsers(){
-        return userService.getUsers();
+    @GetMapping
+    public ResponseEntity<List<User>> getUsers(){
+        return ResponseEntity.ok(userService.getUsers());
     }
 
-    @DeleteMapping("/user")
+    @DeleteMapping
     public void deleteUser(User user){
         userService.deleteUser(user);
     }
 
-    @PutMapping("/user")
-    public User editUser(User user){
-        return userService.editUser(user);
+    @PutMapping("/{id}")
+    public ResponseEntity<User> editUser(@PathVariable UUID id, @RequestBody User user){
+        User edited = userService.editUser(user);
+        return ResponseEntity.ok(edited);
     }
 
-    @GetMapping("/user/{id}")
-    public User userInfo(Long id){
-        return userService.userInfo(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Void> userInfo(Long id){
+        userService.userInfo(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
