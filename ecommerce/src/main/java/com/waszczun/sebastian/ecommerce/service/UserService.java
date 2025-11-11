@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +22,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void deleteUser(User user){
-        userRepository.delete(user);
+    public void deleteUser(Long id){
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+        userRepository.deleteById(id);
     }
 
     public User editUser(User user){

@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,20 +28,20 @@ public class UserController {
     }
 
     @DeleteMapping
-    public void deleteUser(User user){
-        userService.deleteUser(user);
+    public ResponseEntity<Void> deleteUser(Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> editUser(@PathVariable UUID id, @RequestBody User user){
+    public ResponseEntity<User> editUser(@RequestBody User user){
         User edited = userService.editUser(user);
         return ResponseEntity.ok(edited);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Void> userInfo(Long id){
-        userService.userInfo(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<User> userInfo(@PathVariable Long id){
+        return ResponseEntity.ok(userService.userInfo(id));
     }
 
 }
