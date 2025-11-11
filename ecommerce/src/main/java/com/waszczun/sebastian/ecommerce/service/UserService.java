@@ -2,6 +2,7 @@ package com.waszczun.sebastian.ecommerce.service;
 
 import com.waszczun.sebastian.ecommerce.model.User;
 import com.waszczun.sebastian.ecommerce.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,15 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User editUser(User user){
-        Optional<User> byId = userRepository.findById(user.getId());
-        byId.get().setFirstName(user.getFirstName());
-        byId.get().setLastName(user.getLastName());
-        byId.get().setEmail(user.getEmail());
-        return byId.get();
+    @Transactional
+    public User editUser(Long id, User user){
+        return userRepository.findById(id)
+                .map(existing -> {
+                    existing.setFirstName(user.getFirstName());
+                    existing.setLastName(user.getLastName());
+                    return userRepository.save(existing);
+                })
+                .orElseThrow(()-> new RuntimeException("User not found"));
     }
 
     public User userInfo(Long id){
