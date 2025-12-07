@@ -12,6 +12,8 @@ import lombok.*;
 @Entity(name = "users")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
