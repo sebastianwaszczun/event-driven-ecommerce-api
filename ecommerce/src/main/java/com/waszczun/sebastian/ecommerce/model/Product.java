@@ -4,6 +4,7 @@ package com.waszczun.sebastian.ecommerce.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,8 +35,7 @@ public class Product {
     @DecimalMin(value = "0.01", message = "Price must be greater than 0")
     private BigDecimal price;
 
-
-
+    @NotNull
     private int stockQuantity;
 
 }

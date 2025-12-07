@@ -17,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user){
+    public ResponseEntity<User> addUser(@RequestBody User user){ //RequestBody mapuje JSONA na obiekt Java
         User created = userService.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
