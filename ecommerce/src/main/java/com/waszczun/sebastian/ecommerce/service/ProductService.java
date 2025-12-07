@@ -2,8 +2,6 @@ package com.waszczun.sebastian.ecommerce.service;
 
 import com.waszczun.sebastian.ecommerce.model.Product;
 import com.waszczun.sebastian.ecommerce.repository.ProductRepository;
-import com.waszczun.sebastian.ecommerce.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +24,13 @@ public class ProductService {
 
     public Product addProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    public void deleteProduct(int id) {
+        if (productRepository.findById(id).isPresent()) {
+            productRepository.deleteById(id);
+        }else {
+            System.out.println("User does not exist");
+        }
     }
 }
