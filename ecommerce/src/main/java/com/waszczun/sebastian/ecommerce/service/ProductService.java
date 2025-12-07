@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +20,8 @@ public class ProductService {
     }
 
     public Product findById(int id) {
-        return productRepository.findById(id).
-                orElseThrow();
+        Optional<Product> product = productRepository.findById(id);
+        return product.orElse(null);
     }
 
     public Product addProduct(Product product) {

@@ -43,7 +43,7 @@ public class UserService {
 
     public User userInfo(Long id){
         Optional<User> byId = userRepository.findById(id);
-        return byId.get();
+        return byId.orElse(null);
     }
 
 
