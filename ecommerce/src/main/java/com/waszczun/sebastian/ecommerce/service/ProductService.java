@@ -33,4 +33,16 @@ public class ProductService {
             System.out.println("Product does not exist");
         }
     }
+
+    public Product updateProduct(int id, Product product) {
+        return productRepository.findById(id).map(
+                existing ->  {
+                    existing.setName(product.getName());
+                    existing.setPrice(product.getPrice());
+                    existing.setCategory(product.getCategory());
+                    existing.setDescription(product.getDescription());
+                    return productRepository.save(existing);
+                }
+        ).orElseThrow(() -> new RuntimeException("Product does not exist"));
+    }
 }
