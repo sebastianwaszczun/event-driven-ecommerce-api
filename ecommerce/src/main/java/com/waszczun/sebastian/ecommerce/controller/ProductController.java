@@ -38,7 +38,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product1);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product) {
         Product product1 = productService.updateProduct(id, product);
         return ResponseEntity.ok(product1);
