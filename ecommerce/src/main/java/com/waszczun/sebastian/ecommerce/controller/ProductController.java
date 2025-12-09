@@ -3,6 +3,7 @@ package com.waszczun.sebastian.ecommerce.controller;
 import com.waszczun.sebastian.ecommerce.model.Product;
 import com.waszczun.sebastian.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +30,11 @@ public class ProductController {
     public ResponseEntity<Void> deleteProductById(int id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product product1 = productService.addProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product1);
     }
 }
