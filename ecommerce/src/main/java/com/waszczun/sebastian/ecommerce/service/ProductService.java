@@ -30,7 +30,7 @@ public class ProductService {
         if (productRepository.findById(id).isPresent()) {
             productRepository.deleteById(id);
         }else {
-            System.out.println("User does not exist");
+            System.out.println("Product does not exist");
         }
     }
 }
