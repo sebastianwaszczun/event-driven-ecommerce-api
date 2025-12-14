@@ -5,6 +5,7 @@ import com.waszczun.sebastian.ecommerce.dto.ProductResponse;
 import com.waszczun.sebastian.ecommerce.mapper.ProductMapper;
 import com.waszczun.sebastian.ecommerce.model.Product;
 import com.waszczun.sebastian.ecommerce.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest productRequest) {
         Product product1 = productMapper.toEntity(productRequest);
         Product product = productService.addProduct(product1);
         return ResponseEntity.status(HttpStatus.CREATED).body(productMapper.toResponse(product));

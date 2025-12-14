@@ -13,6 +13,7 @@ public class ProductMapper {
         Product product = new Product();
         product.setName(productRequest.name());
         product.setDescription(productRequest.description());
+        product.setCategory(productRequest.category());
         product.setPrice(productRequest.price());
         product.setStockQuantity(productRequest.stockQuantity());
         return product;
