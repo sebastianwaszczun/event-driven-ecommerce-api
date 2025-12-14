@@ -4,8 +4,8 @@ public record UserResponse(
         long id,
         String firstName,
         String lastName,
-        String phoneNumber,
-        String email
+        String email,
+        String phoneNumber
 ){
 
 }
