@@ -1,5 +1,7 @@
 package com.waszczun.sebastian.ecommerce.controller;
 
+import com.waszczun.sebastian.ecommerce.dto.ProductResponse;
+import com.waszczun.sebastian.ecommerce.mapper.ProductMapper;
 import com.waszczun.sebastian.ecommerce.model.Product;
 import com.waszczun.sebastian.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -8,22 +10,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.findAll());
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
+        List<ProductResponse> response = productService.findAll()
+                .stream()
+                .map(productMapper::toResponse)
+                .toList();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id) {
-        return ResponseEntity.ok(productService.findById(id));
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable int id) {
+        if (productService.findById(id)==null) {
+            throw new RuntimeException("Product not found");
+        }
+        return ResponseEntity.ok(productMapper.toResponse(productService.findById(id)));
     }
 
     @DeleteMapping("/{id}")
