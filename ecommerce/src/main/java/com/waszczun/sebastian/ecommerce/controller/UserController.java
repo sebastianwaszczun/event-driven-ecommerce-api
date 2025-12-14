@@ -45,7 +45,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> userInfo(@PathVariable Long id){
-        if (userService.userInfo(id) != null){
+        if (userService.userInfo(id) == null){
             throw new RuntimeException("User not found");
         }
         return ResponseEntity.ok(userMapper.toResponse(userService.userInfo(id)));
