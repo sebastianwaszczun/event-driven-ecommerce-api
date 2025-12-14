@@ -15,10 +15,6 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User addUser(User user){
-        return userRepository.save(user);
-    }
-
     public List<User> getUsers(){
         return userRepository.findAll();
     }
@@ -30,15 +26,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    @Transactional
-    public User editUser(Long id, User user){
-        return userRepository.findById(id)
-                .map(existing -> {
-                    existing.setFirstName(user.getFirstName());
-                    existing.setLastName(user.getLastName());
-                    return userRepository.save(existing);
-                })
-                .orElseThrow(()-> new RuntimeException("User not found"));
+    public User updateUser(User user){
+        return userRepository.save(user);
     }
 
     public User userInfo(Long id){

@@ -20,13 +20,6 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @PostMapping
-    public ResponseEntity<UserResponse> addUser(@RequestBody UserRequest userRequest){ //RequestBody mapuje JSONA na obiekt Jav
-        User entity = userMapper.toEntity(userRequest);
-        User user = userService.addUser(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toResponse(user));
-    }
-
     @GetMapping
     public ResponseEntity<List<UserResponse>> getUsers(){
         List<UserResponse> responses = userService.getUsers()
@@ -44,9 +37,10 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> editUser(@PathVariable Long id, @RequestBody UserRequest userRequest){
-        User entity = userMapper.toEntity(userRequest);
-        User user = userService.editUser(id, entity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toResponse(user));
+        User user = userService.userInfo(id);
+        userMapper.toEntity(userRequest, user);
+        User user1 = userService.updateUser(user);
+        return ResponseEntity.ok(userMapper.toResponse(user1));
     }
 
     @GetMapping("/{id}")
