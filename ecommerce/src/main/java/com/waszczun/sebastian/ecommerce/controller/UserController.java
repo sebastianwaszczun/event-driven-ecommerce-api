@@ -43,9 +43,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> editUser(@PathVariable Long id, @RequestBody User user){
-        User edited = userService.editUser(id, user);
-        return ResponseEntity.ok(edited);
+    public ResponseEntity<UserResponse> editUser(@PathVariable Long id, @RequestBody UserRequest userRequest){
+        User entity = userMapper.toEntity(userRequest);
+        User user = userService.editUser(id, entity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toResponse(user));
     }
 
     @GetMapping("/{id}")
