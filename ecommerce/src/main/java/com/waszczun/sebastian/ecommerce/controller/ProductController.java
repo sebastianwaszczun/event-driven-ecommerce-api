@@ -1,5 +1,6 @@
 package com.waszczun.sebastian.ecommerce.controller;
 
+import com.waszczun.sebastian.ecommerce.dto.ProductRequest;
 import com.waszczun.sebastian.ecommerce.dto.ProductResponse;
 import com.waszczun.sebastian.ecommerce.mapper.ProductMapper;
 import com.waszczun.sebastian.ecommerce.model.Product;
@@ -45,9 +46,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product product1 = productService.addProduct(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(product1);
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
+        Product product1 = productMapper.toEntity(productRequest);
+        Product product = productService.addProduct(product1);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productMapper.toResponse(product));
     }
 
     @PutMapping("/{id}")
