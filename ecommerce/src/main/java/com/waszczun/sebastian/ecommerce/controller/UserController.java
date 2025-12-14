@@ -1,5 +1,6 @@
 package com.waszczun.sebastian.ecommerce.controller;
 
+import com.waszczun.sebastian.ecommerce.dto.UserRequest;
 import com.waszczun.sebastian.ecommerce.dto.UserResponse;
 import com.waszczun.sebastian.ecommerce.mapper.UserMapper;
 import com.waszczun.sebastian.ecommerce.model.User;
@@ -20,9 +21,10 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user){ //RequestBody mapuje JSONA na obiekt Java
-        User created = userService.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    public ResponseEntity<UserResponse> addUser(@RequestBody UserRequest userRequest){ //RequestBody mapuje JSONA na obiekt Jav
+        User entity = userMapper.toEntity(userRequest);
+        User user = userService.addUser(entity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toResponse(user));
     }
 
     @GetMapping
