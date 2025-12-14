@@ -1,5 +1,6 @@
 package com.waszczun.sebastian.ecommerce.service;
 
+import com.waszczun.sebastian.ecommerce.exception.ResourceNotFoundException;
 import com.waszczun.sebastian.ecommerce.model.User;
 import com.waszczun.sebastian.ecommerce.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -21,7 +22,7 @@ public class UserService {
 
     public void deleteUser(Long id){
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new ResourceNotFoundException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
     }
@@ -31,8 +32,7 @@ public class UserService {
     }
 
     public User userInfo(Long id){
-        Optional<User> byId = userRepository.findById(id);
-        return byId.orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
 
