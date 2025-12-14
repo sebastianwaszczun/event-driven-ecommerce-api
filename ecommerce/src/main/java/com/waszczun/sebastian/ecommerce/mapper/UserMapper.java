@@ -3,7 +3,9 @@ package com.waszczun.sebastian.ecommerce.mapper;
 import com.waszczun.sebastian.ecommerce.dto.UserRequest;
 import com.waszczun.sebastian.ecommerce.dto.UserResponse;
 import com.waszczun.sebastian.ecommerce.model.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
     public User toEntity(UserRequest userRequest) {
