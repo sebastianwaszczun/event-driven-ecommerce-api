@@ -1,5 +1,7 @@
 package com.waszczun.sebastian.ecommerce.controller;
 
+import com.waszczun.sebastian.ecommerce.dto.UserResponse;
+import com.waszczun.sebastian.ecommerce.mapper.UserMapper;
 import com.waszczun.sebastian.ecommerce.model.User;
 import com.waszczun.sebastian.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user){ //RequestBody mapuje JSONA na obiekt Java
@@ -23,8 +26,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers(){
-        return ResponseEntity.ok(userService.getUsers());
+    public ResponseEntity<List<UserResponse>> getUsers(){
+        List<UserResponse> responses = userService.getUsers()
+                .stream()
+                .map(userMapper::toResponse)
+                .toList();
+        return ResponseEntity.ok(responses);
     }
 
     @DeleteMapping({"/{id}"})
