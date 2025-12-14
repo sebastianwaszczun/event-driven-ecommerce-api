@@ -1,4 +1,10 @@
 package com.waszczun.sebastian.ecommerce.dto;
 
-public class UserResponse {
+public record UserResponse(
+        long id,
+        String firstName,
+        String lastName,
+        String phoneNumber
+){
+
 }
