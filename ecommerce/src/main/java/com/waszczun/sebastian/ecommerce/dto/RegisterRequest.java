@@ -22,8 +22,6 @@ public record RegisterRequest(
         @Size(min = 6, message = "Password must be at least 6 characters long")
         String password,
 
-        // Telefon może być opcjonalny (bez @NotBlank), ale jeśli user go poda,
-        // to możesz dodać walidację formatu (np. cyfry). Tu zostawiam luźno.
         String phoneNumber
 ) {
 }

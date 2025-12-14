@@ -1,4 +1,6 @@
 package com.waszczun.sebastian.ecommerce.dto;
 
-public class AuthResponse {
+public record AuthResponse(
+        String token
+) {
 }
