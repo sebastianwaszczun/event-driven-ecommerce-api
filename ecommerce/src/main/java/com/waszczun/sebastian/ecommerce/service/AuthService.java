@@ -15,6 +15,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final KafkaProducerService kafkaProducerService;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
@@ -30,6 +31,8 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.password()));
 
         userRepository.save(user);
+
+        kafkaProducerService.sendRegistrationEvent(user.getEmail());
 
         String token = jwtTokenProvider.generateToken(user.getEmail());
 
