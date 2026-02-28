@@ -2,6 +2,7 @@ package com.waszczun.sebastian.ecommerce.controller;
 
 import com.waszczun.sebastian.ecommerce.dto.ProductRequest;
 import com.waszczun.sebastian.ecommerce.dto.ProductResponse;
+import com.waszczun.sebastian.ecommerce.exception.ResourceNotFoundException;
 import com.waszczun.sebastian.ecommerce.mapper.ProductMapper;
 import com.waszczun.sebastian.ecommerce.model.Product;
 import com.waszczun.sebastian.ecommerce.service.ProductService;
@@ -36,7 +37,7 @@ public class ProductController {
     public ResponseEntity<ProductResponse> getProductById(@PathVariable int id) {
         Product product = productService.findById(id);
         if (product==null) {
-            throw new RuntimeException("Product not found");
+            throw new ResourceNotFoundException("Product not found");
         }
         return ResponseEntity.ok(productMapper.toResponse(product));
     }
