@@ -34,10 +34,11 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable int id) {
-        if (productService.findById(id)==null) {
+        Product product = productService.findById(id);
+        if (product==null) {
             throw new RuntimeException("Product not found");
         }
-        return ResponseEntity.ok(productMapper.toResponse(productService.findById(id)));
+        return ResponseEntity.ok(productMapper.toResponse(product));
     }
 
     @DeleteMapping("/{id}")
