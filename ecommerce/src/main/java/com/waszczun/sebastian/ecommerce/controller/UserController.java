@@ -2,6 +2,7 @@ package com.waszczun.sebastian.ecommerce.controller;
 
 import com.waszczun.sebastian.ecommerce.dto.UserRequest;
 import com.waszczun.sebastian.ecommerce.dto.UserResponse;
+import com.waszczun.sebastian.ecommerce.exception.ResourceNotFoundException;
 import com.waszczun.sebastian.ecommerce.mapper.UserMapper;
 import com.waszczun.sebastian.ecommerce.model.User;
 import com.waszczun.sebastian.ecommerce.service.UserService;
@@ -45,10 +46,11 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> userInfo(@PathVariable Long id){
-        if (userService.userInfo(id) == null){
-            throw new RuntimeException("User not found");
+        User user = userService.userInfo(id);
+        if (user == null){
+            throw new ResourceNotFoundException("User not found");
         }
-        return ResponseEntity.ok(userMapper.toResponse(userService.userInfo(id)));
+        return ResponseEntity.ok(userMapper.toResponse(user));
     }
 
 }
